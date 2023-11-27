@@ -93,6 +93,7 @@ def encrypt(pk, plaintext):
     # Convert each letter in the plaintext to numbers based on the character using a^b mod m
     cipher = [pow(ord(char), key, n) for char in plaintext]
     # Return the array of bytes
+    print(cipher)
     return cipher
 
 

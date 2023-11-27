@@ -2,6 +2,8 @@ from RSA_modified import RSA_Create, RSA_Decrypt
 from Caesar_modified import Caesar
 from Vigenere_modified import Vigenere_modified
 from in_out import in_out_plain
+import random
+
 
 
 class management:
@@ -32,32 +34,50 @@ class management:
 
     def checking(self):
         rsa = RSA_Create(self.in_out.month, self.in_out.day)
+        rsa_decrypt = RSA_Decrypt(rsa.get_private_key()[0], rsa.get_private_key()[1])
         caesar = Caesar(self.in_out.day)
+        vigenere = Vigenere_modified(self.in_out.month)
+
         temp = self.file_data
+        print("temp: ", temp)
         temp = rsa.encrypt(temp)
-        print(temp)
+        print("rsa: ", temp)
         temp = "-".join(map(str, temp))
-        print(temp)
+        print("rsa: ", temp)
         temp1 = caesar.encrypt("".join(map(str, temp)))
-        # temp2 = vigenere.encrypt(temp1)
-        self.file_data = temp1
-        print(self.file_data)
-        # self.file_data = Vigenere_modified.decrypt(vigenere, self.file_data)
-        # print(self.file_data)
-        temp1 = caesar.decrypt(self.file_data)
-        print(temp1)
-        rsa_decrypt = RSA_Decrypt(
-            rsa.get_private_key(), rsa.get_public_key()[1])
-        # convert temp1 to list
+        print("caesar: ", temp1)
+
+        # Decrypt
+        temp1 = Caesar.decrypt(caesar, temp1)
+        print("caesar der: ", temp1)
         temp1 = temp1.split("-")
+        print("caesar der: ", temp1)
         temp1 = list(map(int, temp1))
-        temp2 = rsa_decrypt.decrypt2(temp1)
-        print(temp2)
-        self.file_data = temp2
-        print(self.file_data)
+        print("caesar der: ", temp1)
+        temp1 = rsa_decrypt.decrypt23(temp1)
+        print(temp1)
+
+        # temp = self.file_data
+        # print(temp)
+        # temp = rsa.encrypt(temp)
+        # print(temp)
+        # temp = "-".join(map(str, temp))
+
+
+        # # Decrypt
+        # # REvert string to list
+        # temp = temp.split("-")
+        # # Convert string to int
+        # temp = list(map(int, temp))
+        
+        # # Decrypt
+        # temp = rsa_decrypt.decrypt23(temp)
+        # print(temp)
+        
+       
 
 
 if __name__ == "__main__":
-    inputt = in_out_plain("input_plain.txt", 1, 1, 2021)
+    inputt = in_out_plain("input_plain.txt", 10, 24, 2021)
     management = management(inputt)
     management.checking()

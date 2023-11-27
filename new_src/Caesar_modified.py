@@ -18,8 +18,10 @@ class Caesar():
         nums = ciphertext.split('-')
         for num in nums:
             # Perform Caesar decryption on each number
-            plain += str((int(num) - self.key) % 256) + '-'
+            decrypted_num = (int(num) - self.key + 256) % 256  # Ensure positive result
+            plain += str(decrypted_num) + '-'
         return plain.rstrip('-')  # Remove trailing hyphen
+
 
     def get_public_key(self):
         return self.key

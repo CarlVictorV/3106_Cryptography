@@ -197,10 +197,11 @@ class RSA_Decrypt():
         self.private_key = private_key
         self.modulus = modulus
 
-    def decrypt2(self, ciphertext):
+    def decrypt23(self, ciphertext):
+        print("Decrypting")
         print(ciphertext)
         # Unpack the key into its components
-        key, n = self.private_key
+        key, n = self.private_key , self.modulus
         # Generate the plaintext based on the ciphertext and key using a^b mod m
         aux = [str(pow(char, key, n)) for char in ciphertext]
         print(aux)
@@ -220,7 +221,7 @@ def main():
     print(rsa.decrypt(rsa.encrypt("Hello")))
     encrypted = rsa.encrypt("Hello")
     rsa2 = RSA_Decrypt(rsa.get_private_key(), rsa.get_public_key()[1])
-    print(rsa2.decrypt2(encrypted))
+    print(rsa2.decrypt23(encrypted))
 
 
 if __name__ == "__main__":
