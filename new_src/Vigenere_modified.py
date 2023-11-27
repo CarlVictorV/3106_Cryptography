@@ -1,11 +1,26 @@
 class Vigenere_modified:
     def __init__(self, key):
         self.string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .,:;'\"/\\<>(){}[]-=_+?!@#$%^&*~`"
-        self.key = key
+        self.key = self.set_key(key)
         self.key_index = 0
 
     def set_key(self, key):
-        self.key = key
+        # Switch case for months
+        switcher = {
+            1: "January",
+            2: "February",
+            3: "March",
+            4: "April",
+            5: "May",
+            6: "June",
+            7: "July",
+            8: "August",
+            9: "September",
+            10: "October",
+            11: "November",
+            12: "December"
+        }
+        return switcher.get(key, "Invalid month")
 
     def encrypt(self, plaintext):
         ciphertext = ""
@@ -33,10 +48,10 @@ class Vigenere_modified:
 
 
 def main():
-    month = int(input("Enter the month of the year: "))
+    month = input("Enter the month of the year: ")
     vigenere = Vigenere_modified(month)
     print("Public key: ", vigenere.key)
-    plaintext = input("Enter the plaintext: ")
+    plaintext = 'Fucker'
     ciphertext = vigenere.encrypt(plaintext)
     print("Ciphertext: ", ciphertext)
     print("Plaintext: ", vigenere.decrypt(ciphertext))
