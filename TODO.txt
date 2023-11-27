@@ -1,0 +1,9 @@
+##GAMEPLAN
+```
+[] RSA
+[] Modified Vigenère
+[] Modified Caesar 
+```
+
+Basically a cryptograph focused on dates and numbers as main input.
+
