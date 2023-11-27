@@ -97,12 +97,15 @@ def encrypt(pk, plaintext):
 
 
 def decrypt(pk, ciphertext):
+    print(ciphertext)
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
     aux = [str(pow(char, key, n)) for char in ciphertext]
+    print(aux)
     # Return the array of bytes as a string
     plain = [chr(int(char2)) for char2 in aux]
+    print(plain)
     return ''.join(plain)
 
 
@@ -125,6 +128,7 @@ if __name__ == '__main__':
 
     message = input(" - Enter a message to encrypt with your public key: ")
     encrypted_msg = encrypt(public, message)
+    print(encrypted_msg)
 
     print(" - Your encrypted message is: ", ''.join(map(lambda x: str(x), encrypted_msg)))
     print(" - Decrypting message with private key ", private, " . . .")
