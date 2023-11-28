@@ -47,6 +47,8 @@ class in_out_plain():
 
     def set_file_name(self, file_name):
         self.file_name = file_name
+    
+    #todo: create md5
 
 
 class in_out_cipher(in_out_plain):

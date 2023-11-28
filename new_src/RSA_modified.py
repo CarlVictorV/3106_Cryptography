@@ -210,6 +210,27 @@ class RSA_Decrypt():
         print(plain)
         return ''.join(plain)
 
+    def decrypt(self, ciphertext):
+        print("Decrypting")
+        print(ciphertext)
+        # Unpack the key into its components
+        key, n = self.private_key , self.modulus
+
+        # Take the ciphertext and convert it to a list
+        ciphertext = ciphertext.split("-")
+        ciphertext = list(map(int, ciphertext))
+
+        # Generate the plaintext based on the ciphertext and key using a^b mod m
+        aux = [str(pow(char, key, n)) for char in ciphertext]
+        print(aux)
+        # Return the array of bytes as a string
+        plain = [chr(int(char2)) for char2 in aux]
+        print(plain)
+        return ''.join(plain)
+
+
+
+
 
 def main():
     rsa = RSA_Create(1, 1)
@@ -220,7 +241,7 @@ def main():
     print(rsa.encrypt("Hello"))
     print(rsa.decrypt(rsa.encrypt("Hello")))
     encrypted = rsa.encrypt("Hello")
-    rsa2 = RSA_Decrypt(rsa.get_private_key(), rsa.get_public_key()[1])
+    rsa2 = RSA_Decrypt(rsa.get_private_key()[0], rsa.get_public_key()[1])
     print(rsa2.decrypt23(encrypted))
 
 

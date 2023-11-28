@@ -39,45 +39,26 @@ class management:
         vigenere = Vigenere_modified(self.in_out.month)
 
         temp = self.file_data
-        print("temp: ", temp)
         temp = rsa.encrypt(temp)
-        print("rsa: ", temp)
         temp = "-".join(map(str, temp))
-        print("rsa: ", temp)
+        print(temp)
         temp1 = caesar.encrypt("".join(map(str, temp)))
-        print("caesar: ", temp1)
-
-        # Decrypt
-        temp1 = Caesar.decrypt(caesar, temp1)
-        print("caesar der: ", temp1)
-        temp1 = temp1.split("-")
-        print("caesar der: ", temp1)
-        temp1 = list(map(int, temp1))
-        print("caesar der: ", temp1)
-        temp1 = rsa_decrypt.decrypt23(temp1)
+        print()
         print(temp1)
+        # TO BE CONTINUED
 
-        # temp = self.file_data
-        # print(temp)
-        # temp = rsa.encrypt(temp)
-        # print(temp)
-        # temp = "-".join(map(str, temp))
-
-
-        # # Decrypt
-        # # REvert string to list
-        # temp = temp.split("-")
-        # # Convert string to int
-        # temp = list(map(int, temp))
-        
-        # # Decrypt
-        # temp = rsa_decrypt.decrypt23(temp)
-        # print(temp)
+        # DECRYPTING
+        temp1 = Caesar.decrypt(caesar, temp1)
+        print()
+        print(temp1)
+        temp1 = rsa_decrypt.decrypt(temp1)
+        print()
+        print(temp1)
         
        
 
 
 if __name__ == "__main__":
-    inputt = in_out_plain("input_plain.txt", 10, 24, 2021)
+    inputt = in_out_plain("input_plain.txt", 10, 3, 2021)
     management = management(inputt)
     management.checking()

@@ -1,7 +1,7 @@
 class Vigenere_modified:
     def __init__(self, key):
         self.string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .,:;'\"/\\<>(){}[]-=_+?!@#$%^&*~`"
-        self.key = self.set_key(key)
+        self.key = key
         self.key_index = 0
 
     def set_key(self, key):
@@ -20,7 +20,7 @@ class Vigenere_modified:
             11: "November",
             12: "December"
         }
-        return switcher.get(key, "Invalid month")
+        return switcher.get(key)
 
     def encrypt(self, plaintext):
         ciphertext = ""
