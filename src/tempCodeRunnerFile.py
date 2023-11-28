@@ -1,1 +1,0 @@
-input = Input("input_cipher.txt", 1, 1, 2020, "ciphertext")

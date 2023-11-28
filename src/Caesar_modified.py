@@ -1,7 +1,17 @@
 class Caesar:
     def __init__(self, key):
-        self.key = key
+        self.key = self.create_key(key)
         self.characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+    def create_key(self, days):
+        if days == 9:
+            return 41
+        elif days == 18:
+            return 42
+        elif days == 27:
+            return 43
+        else:
+            return days
 
     def encrypt(self, plaintext):
         ciphertext = ""

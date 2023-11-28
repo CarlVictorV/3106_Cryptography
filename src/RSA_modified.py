@@ -1,10 +1,10 @@
+import os
 import random
 
 
 class RSA_Create():
     def __init__(self, p_month, q_day):
-        p = self.get_nearest_prime_for_months(p_month)
-        q = self.get_nearest_prime_for_days(q_day)
+        p, q = self.create_p_q(p_month, q_day)
         public_key, private_key = self.generate_key_pair(p, q)
         self.public_key = public_key
         self.private_key = private_key
@@ -91,105 +91,35 @@ class RSA_Create():
     def get_private_key(self):
         return self.private_key
 
-    # TODO: Find a better way to do this
-    def get_nearest_prime_for_months(self, months):
-        prime = 0
-        # Starting from 200
-        if months == 1:
-            prime = 211
-        elif months == 2:
-            prime = 223
-        elif months == 3:
-            prime = 227
-        elif months == 4:
-            prime = 229
-        elif months == 5:
-            prime = 233
-        elif months == 6:
-            prime = 239
-        elif months == 7:
-            prime = 241
-        elif months == 8:
-            prime = 251
-        elif months == 9:
-            prime = 257
-        elif months == 10:
-            prime = 263
-        elif months == 11:
-            prime = 269
-        elif months == 12:
-            prime = 271
-        return prime
-
-    def get_nearest_prime_for_days(self, days):
-        prime = 0
-        if days == 1:
-            prime = 2
-        elif days == 2:
-            prime = 3
-        elif days == 3:
-            prime = 5
-        elif days == 4:
-            prime = 7
-        elif days == 5:
-            prime = 11
-        elif days == 6:
-            prime = 13
-        elif days == 7:
-            prime = 17
-        elif days == 8:
-            prime = 19
-        elif days == 9:
-            prime = 23
-        elif days == 10:
-            prime = 29
-        elif days == 11:
-            prime = 31
-        elif days == 12:
-            prime = 37
-        elif days == 13:
-            prime = 41
-        elif days == 14:
-            prime = 43
-        elif days == 15:
-            prime = 47
-        elif days == 16:
-            prime = 53
-        elif days == 17:
-            prime = 59
-        elif days == 18:
-            prime = 61
-        elif days == 19:
-            prime = 67
-        elif days == 20:
-            prime = 71
-        elif days == 21:
-            prime = 73
-        elif days == 22:
-            prime = 79
-        elif days == 23:
-            prime = 83
-        elif days == 24:
-            prime = 89
-        elif days == 25:
-            prime = 97
-        elif days == 26:
-            prime = 101
-        elif days == 27:
-            prime = 103
-        elif days == 28:
-            prime = 107
-        elif days == 29:
-            prime = 109
-        elif days == 30:
-            prime = 113
-        elif days == 31:
-            prime = 127
+    def create_p_q(self, p_month, q_day):
+        if os.name == 'nt':
+            primes_file_path = 'src\primes.txt'
         else:
-            prime = 131
-        return prime
+            primes_file_path = 'src/primes.txt'
 
-    # New Implementation
+        max_index = 9600  # Adjust this according to your prime file size
+
+        p_index = (p_month + random.randint(1, 100)) * \
+            (q_day + random.randint(1, 100)) % max_index
+        q_index = (q_day + random.randint(1, 100)) * \
+            (p_month + random.randint(1, 100)) % max_index
+
+        p = self.get_prime_at_index(primes_file_path, p_index)
+        q = self.get_prime_at_index(primes_file_path, q_index)
+
+        while p == q:
+            q_index = (q_index + 1) % max_index
+            q = self.get_prime_at_index(primes_file_path, q_index)
+        print(p, q)
+        return p, q
+
+    def get_prime_at_index(self, file_path, index):
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+            if 0 <= index < len(lines):
+                return int(lines[index].strip())
+            else:
+                raise IndexError("Index out of range")
 
 
 class RSA_Decrypt():
@@ -197,10 +127,11 @@ class RSA_Decrypt():
         self.private_key = private_key
         self.modulus = modulus
 
-    def decrypt2(self, ciphertext):
+    def decrypt23(self, ciphertext):
+        print("Decrypting")
         print(ciphertext)
         # Unpack the key into its components
-        key, n = self.private_key
+        key, n = self.private_key, self.modulus
         # Generate the plaintext based on the ciphertext and key using a^b mod m
         aux = [str(pow(char, key, n)) for char in ciphertext]
         print(aux)
@@ -208,3 +139,30 @@ class RSA_Decrypt():
         plain = [chr(int(char2)) for char2 in aux]
         print(plain)
         return ''.join(plain)
+
+    def decrypt(self, ciphertext):
+        # Unpack the key into its components
+        key, n = self.private_key, self.modulus
+        # Take the ciphertext and convert it to a list
+        ciphertext = ciphertext.split("-")
+        ciphertext = list(map(int, ciphertext))
+        # Generate the plaintext based on the ciphertext and key using a^b mod m
+        aux = [str(pow(char, key, n)) for char in ciphertext]
+        # Return the array of bytes as a string
+        plain = [chr(int(char2)) for char2 in aux]
+        return ''.join(plain)
+
+
+def main():
+    rsa = RSA_Create(1, 1)
+    print(rsa.get_public_key())
+    print(rsa.get_private_key())
+    print(rsa.encrypt("Hello"))
+    print(rsa.decrypt(rsa.encrypt("Hello")))
+    encrypted = rsa.encrypt("Hello")
+    rsa2 = RSA_Decrypt(rsa.get_private_key()[0], rsa.get_public_key()[1])
+    print(rsa2.decrypt23(encrypted))
+
+
+if __name__ == "__main__":
+    main()

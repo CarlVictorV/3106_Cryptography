@@ -21,7 +21,7 @@ class management:
         rsa_decrypt = RSA_Decrypt(rsa.get_private_key()[
                                   0], rsa.get_private_key()[1])
         caesar = Caesar(self.in_out.day)
-        vigenere = Vigenere_modified(self.in_out.month)
+        vigenere = Vigenere_modified(self.in_out.month, self.in_out.year)
         print("Printing Pre-Encryption")
         temp = self.file_data
         print(temp)
@@ -44,7 +44,6 @@ class management:
         temp1 = rsa_decrypt.decrypt(temp1)
         print(temp1)
 
-        
 
 if __name__ == "__main__":
     inputt = in_out_plain("input_plain.txt", 10, 3, 2021)
