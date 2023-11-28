@@ -73,6 +73,7 @@ class in_out_cipher():
             self.read_file()
         else:
             self.file_data = None
+            print("File does not exist")
 
     def check_file_exists(self):
         if self.file_name is None:
@@ -81,9 +82,9 @@ class in_out_cipher():
         if not self.file_name.endswith(".txt"):
             self.file_name += ".txt"
 
-        file_path = f"input{append}" + self.file_name
+        self.file_name = f"input{append}" + self.file_name
 
-        return os.path.isfile(file_path)
+        return os.path.isfile(self.file_name)
 
     def read_file(self):
         try:

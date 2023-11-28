@@ -1,48 +1,46 @@
 class Caesar:
-    def __init__(self, day):
+    def __init__(self, day: int):
         self.key = self.create_key(day)
-        self.characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
-    def create_key(self, days):
-        if days == 9:
-            return 41
-        elif days == 18:
-            return 42
-        elif days == 27:
-            return 43
+    def create_key(self, days: int) -> int:
+        if days in [9, 18, 27]:
+            return days + 40
         else:
             return days
 
-    def encrypt(self, plaintext):
+    def encrypt(self, plaintext: str) -> str:
         ciphertext = ""
         for char in plaintext:
             if char == "-":
                 ciphertext += "-"
             else:
-                ciphertext += self.adder(char)
+                ciphertext += self.encrypt_char(char)
         return ciphertext
 
-    def adder(self, char):
+    def encrypt_char(self, char: str) -> str:
         num = int(char)
         hold = num + self.key
-        return self.characters[hold]
+        return CHARACTERS[hold % len(CHARACTERS)]
 
-    def subtractor(self, char):
-        num = self.characters.index(char)
-        hold = num - self.key
-        return self.characters[hold]
-
-    def decrypt(self, ciphertext):
+    def decrypt(self, ciphertext: str) -> str:
         plaintext = ""
         for char in ciphertext:
             if char == "-":
                 plaintext += "-"
             else:
-                plaintext += self.subtractor(char)
+                plaintext += self.decrypt_char(char)
         return plaintext
 
-    def get_public_key(self):
+    def decrypt_char(self, char: str) -> str:
+        num = CHARACTERS.index(char)
+        hold = num - self.key
+        return CHARACTERS[hold % len(CHARACTERS)]
+
+    def get_public_key(self) -> int:
         return self.key
+
+
+CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
 
 def main():

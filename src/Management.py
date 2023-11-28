@@ -2,7 +2,6 @@ from RSA_modified import RSA_Create, RSA_Decrypt
 from Caesar_modified import Caesar
 from Vigenere_modified import Vigenere_modified
 from in_out import in_out_cipher, in_out_plain
-import random
 
 
 class management_plain_to_cipher:
@@ -93,9 +92,9 @@ class management_cipher_to_plain:
 
 if __name__ == "__main__":
     # Plain to cipher
-    # inputt = in_out_plain("input_plain.txt", 10, 3, 2021)
-    # management = management_plain_to_cipher(inputt)
-    # management.encrypt()
+    inputt = in_out_plain("input_plain.txt", 10, 3, 2021)
+    management = management_plain_to_cipher(inputt)
+    management.encrypt()
 
     # Cipher to plain
     inputt = in_out_cipher("input_cipher.txt")
