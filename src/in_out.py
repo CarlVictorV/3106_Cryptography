@@ -152,8 +152,3 @@ class in_out_cipher():
 
         return True
 
-
-if __name__ == "__main__":
-    # Get the current date
-    testcipher = in_out_cipher("ciphertext.txt")
-    testcipher.checker()
