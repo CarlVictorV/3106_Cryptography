@@ -22,6 +22,7 @@ class Vigenere_modified:
             index = (self.string.find(
                 c) - self.string.find(self.key[i % len(self.key)])) % len(self.string)
             plaintext += self.string[index]
+
         return plaintext
 
 
@@ -31,12 +32,12 @@ months = ["January", "February", "March", "April", "May", "June",
 
 def main():
     # Example usage:
-    vigenere = Vigenere_modified(12, 2222)
+    vigenere = Vigenere_modified(10, 2021)
     print("Key:", vigenere.key)
-    plaintext = "448-43C9-A5A-A46-967-9A3-CA4-CA5-6BB-94C-4468-A34-98A-BC6-587-B43-499-B85-4B-435C-4363-799-67A-4AB-5AC-4348"
-    encrypted_text = vigenere.encrypt(plaintext)
+
+    encrypted_text = '\$uB$#rUlR2(dMEbgc30QS)#uCMfs31SR{?eC@%GS0SS`dHq#fs30nT{eLB?frnOPO\#vE$PKU2US\!LZbesU2S2QNuo?^JS1Qm\#JD@eHTl3PQ$upcecUT4T/!uoMfs31SR{?epcfsSQVO`@uFc*H22nP/?HEd%Jn0PSP%ID#Ps2OTT>dHZ!fI3TS1QNtq$eISPQ'
     print("Encrypted:", encrypted_text)
-    decrypted_text = vigenere.decrypt(encrypted_text)
+    decrypted_text = vigenere.decrypt(str(encrypted_text))
     print("Decrypted:", decrypted_text)
 
 

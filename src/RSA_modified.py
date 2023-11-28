@@ -9,6 +9,7 @@ class RSA_Create():
         self.public_key = public_key
         self.private_key = private_key
 
+
     # Pairing
     def generate_key_pair(self, p, q):
 
@@ -41,18 +42,6 @@ class RSA_Create():
         cipher = [pow(ord(char), key, n) for char in plaintext]
         # Return the array of bytes
         return cipher
-
-    def decrypt(self, ciphertext):
-        print(ciphertext)
-        # Unpack the key into its components
-        key, n = self.private_key
-        # Generate the plaintext based on the ciphertext and key using a^b mod m
-        aux = [str(pow(char, key, n)) for char in ciphertext]
-        print(aux)
-        # Return the array of bytes as a string
-        plain = [chr(int(char2)) for char2 in aux]
-        print(plain)
-        return ''.join(plain)
 
     # GENERAL FUNCTIONS
 
@@ -110,7 +99,6 @@ class RSA_Create():
         while p == q:
             q_index = (q_index + 1) % max_index
             q = self.get_prime_at_index(primes_file_path, q_index)
-        print(p, q)
         return p, q
 
     def get_prime_at_index(self, file_path, index):
@@ -154,14 +142,8 @@ class RSA_Decrypt():
 
 
 def main():
-    rsa = RSA_Create(1, 1)
-    print(rsa.get_public_key())
-    print(rsa.get_private_key())
-    print(rsa.encrypt("Hello"))
-    print(rsa.decrypt(rsa.encrypt("Hello")))
-    encrypted = rsa.encrypt("Hello")
-    rsa2 = RSA_Decrypt(rsa.get_private_key()[0], rsa.get_public_key()[1])
-    print(rsa2.decrypt23(encrypted))
+    rsa2 = RSA_Decrypt(106364327, 89836433)
+    print(rsa2.decrypt("14805175-28486379-87145381-88883360-13323734-81948887-56950187-10013935-65954115-77859389-87145381-13323734-81948887-56950187-88883360-88883360-28486379-10013935-70485224-87145381-28486379-79574321"))
 
 
 if __name__ == "__main__":

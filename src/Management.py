@@ -1,51 +1,103 @@
 from RSA_modified import RSA_Create, RSA_Decrypt
 from Caesar_modified import Caesar
 from Vigenere_modified import Vigenere_modified
-from in_out import in_out_plain
+from in_out import in_out_cipher, in_out_plain
 import random
 
 
-class management:
+class management_plain_to_cipher:
     def __init__(self, in_out):
         self.in_out = in_out
         self.file_data = self.in_out.file_data
 
     def encrypt(self):
-        print("To be continued")
-
-    def decrypt(self):
-        print("To be continued")
-
-    def checking(self):
-        rsa = RSA_Create(self.in_out.month, self.in_out.day)
-        rsa_decrypt = RSA_Decrypt(rsa.get_private_key()[
-                                  0], rsa.get_private_key()[1])
+        # Initialize the ciphers
         caesar = Caesar(self.in_out.day)
         vigenere = Vigenere_modified(self.in_out.month, self.in_out.year)
-        print("Printing Pre-Encryption")
-        temp = self.file_data
-        print(temp)
-        temp = rsa.encrypt(temp)
-        print(temp)
-        temp = "-".join(map(str, temp))
-        temp1 = caesar.encrypt("".join(map(str, temp)))
-        print(temp1)
-        # Storing in file
-        self.in_out.file_data = temp1
+        rsa = RSA_Create(self.in_out.month, self.in_out.day)
+
+        # Encrypt the file data
+        self.file_data = rsa.encrypt(self.file_data)
+        self.file_data = "-".join(map(str, self.file_data))
+        self.file_data = caesar.encrypt(self.file_data)
+        self.file_data = vigenere.encrypt(self.file_data)
+
+        # Write the encrypted data to the output file
+        self.in_out.file_data = self.file_data
+        self.in_out.output(rsa.get_private_key()[0], rsa.get_private_key()[1])
+
+    def test(self):
+        # Initialize the ciphers
+        caesar = Caesar(self.in_out.day)
+        vigenere = Vigenere_modified(self.in_out.month, self.in_out.year)
+        rsa = RSA_Create(self.in_out.month, self.in_out.day)
+
+        # Encrypt the file data
+        print("Original File Data: " + self.file_data)
+        self.file_data = rsa.encrypt(self.file_data)
+        print("RSA Encrypted File Data: " + str(self.file_data))
+        self.file_data = "-".join(map(str, self.file_data))
+        print("RSA Encrypted File Data: " + self.file_data)
+        self.file_data = caesar.encrypt(self.file_data)
+        print("Caesar Encrypted File Data: " + self.file_data)
+        self.file_data = vigenere.encrypt(self.file_data)
+        print("Vigenere Encrypted File Data: " + self.file_data)
+
+        # Decrypt the file data
+        rsa_decrypted = RSA_Decrypt(
+            rsa.get_private_key()[0], rsa.get_private_key()[1])
+
+        self.file_data = vigenere.decrypt(self.file_data)
+        print("Vigenere Decrypted File Data: " + self.file_data)
+        self.file_data = caesar.decrypt(self.file_data)
+        print("Caesar Decrypted File Data: " + self.file_data)
+        self.file_data = rsa_decrypted.decrypt(self.file_data)
+        print("RSA Decrypted File Data: " + self.file_data)
+
+
+class management_cipher_to_plain:
+    def __init__(self, in_out):
+        self.in_out = in_out
+        self.file_data = self.in_out.encrypted_data
+
+    def decrypt(self):
+        # Initialize the ciphers
+        caesar = Caesar(self.in_out.day)
+        vigenere = Vigenere_modified(self.in_out.month, self.in_out.year)
+        rsa = RSA_Decrypt(self.in_out.private_key, self.in_out.modulus)
+
+        # Decrypt the file data
+        self.file_data = vigenere.decrypt(self.file_data)
+        self.file_data = caesar.decrypt(self.file_data)
+        self.file_data = rsa.decrypt(self.file_data)
+
+        # Write the decrypted data to the output file
+        self.in_out.file_data = self.file_data
         self.in_out.output()
-        md = self.in_out.md5
 
-        # TO BE CONTINUED
+    def test(self):
+        # Initialize the ciphers
+        caesar = Caesar(self.in_out.day)
+        vigenere = Vigenere_modified(self.in_out.month, self.in_out.year)
+        rsa = RSA_Decrypt(self.in_out.private_key, self.in_out.modulus)
 
-        # DECRYPTING
-        print("Printing Post-Decryption")
-        temp1 = Caesar.decrypt(caesar, temp1)
-        print(temp1)
-        temp1 = rsa_decrypt.decrypt(temp1)
-        print(temp1)
+        # Decrypt the file data
+        print("Original File Data: " + self.file_data)
+        self.file_data = vigenere.decrypt(self.file_data)
+        print("Vigenere Decrypted File Data: " + self.file_data)
+        self.file_data = caesar.decrypt(self.file_data)
+        print("Caesar Decrypted File Data: " + self.file_data)
+        self.file_data = rsa.decrypt(self.file_data)
+        print("RSA Decrypted File Data: " + self.file_data)
 
 
 if __name__ == "__main__":
-    inputt = in_out_plain("input_plain.txt", 10, 3, 2021)
-    management = management(inputt)
-    management.checking()
+    # Plain to cipher
+    # inputt = in_out_plain("input_plain.txt", 10, 3, 2021)
+    # management = management_plain_to_cipher(inputt)
+    # management.encrypt()
+
+    # Cipher to plain
+    inputt = in_out_cipher("input_cipher.txt")
+    management = management_cipher_to_plain(inputt)
+    management.decrypt()
