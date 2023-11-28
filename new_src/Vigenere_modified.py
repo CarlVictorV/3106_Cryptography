@@ -4,57 +4,37 @@ class Vigenere_modified:
         self.key = key
         self.key_index = 0
 
-    def set_key(self, key):
-        # Switch case for months
-        switcher = {
-            1: "January",
-            2: "February",
-            3: "March",
-            4: "April",
-            5: "May",
-            6: "June",
-            7: "July",
-            8: "August",
-            9: "September",
-            10: "October",
-            11: "November",
-            12: "December"
-        }
-        return switcher.get(key)
-
     def encrypt(self, plaintext):
+        # Inputs a plaintext string and outputs an encrypted string
+        # Format of plaintext is a string of any characters in self.string
+        # 448-43C9-A5A-A46-967-9A3-CA4-CA5-6BB-94C-4468-A34-98A-BC6-587-B43-499-B85-4B-435C-4363-799-67A-4AB-5AC-4348
         ciphertext = ""
-        for i in range(len(plaintext)):
-            char = plaintext[i]
-            if char in self.string:
-                ciphertext += self.string[(self.string.index(char) + self.string.index(
-                    self.key[self.key_index])) % len(self.string)]
-                self.key_index = (self.key_index + 1) % len(self.key)
-            else:
-                ciphertext += char
+        for i, c in enumerate(plaintext):
+            index = (self.string.find(
+                c) + self.string.find(self.key[i % len(self.key)])) % len(self.string)
+            ciphertext += self.string[index]
         return ciphertext
 
     def decrypt(self, ciphertext):
+        # Inputs a ciphertext string and outputs a decrypted string
+        # Format of ciphertext is a string of any characters in self.string
+        # Zin2s?=aq8pwI
         plaintext = ""
-        for i in range(len(ciphertext)):
-            char = ciphertext[i]
-            if char in self.string:
-                plaintext += self.string[(self.string.index(char) - self.string.index(
-                    self.key[self.key_index])) % len(self.string)]
-                self.key_index = (self.key_index + 1) % len(self.key)
-            else:
-                plaintext += char
+        for i, c in enumerate(ciphertext):
+            index = (self.string.find(
+                c) - self.string.find(self.key[i % len(self.key)])) % len(self.string)
+            plaintext += self.string[index]
         return plaintext
 
 
 def main():
-    month = input("Enter the month of the year: ")
-    vigenere = Vigenere_modified(month)
-    print("Public key: ", vigenere.key)
-    plaintext = 'Fucker'
-    ciphertext = vigenere.encrypt(plaintext)
-    print("Ciphertext: ", ciphertext)
-    print("Plaintext: ", vigenere.decrypt(ciphertext))
+    # Example usage:
+    vigenere = Vigenere_modified("December2022")
+    plaintext = "448-43C9-A5A-A46-967-9A3-CA4-CA5-6BB-94C-4468-A34-98A-BC6-587-B43-499-B85-4B-435C-4363-799-67A-4AB-5AC-4348"
+    encrypted_text = vigenere.encrypt(plaintext)
+    print("Encrypted:", encrypted_text)
+    decrypted_text = vigenere.decrypt(encrypted_text)
+    print("Decrypted:", decrypted_text)
 
 
 if __name__ == "__main__":

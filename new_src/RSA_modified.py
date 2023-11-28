@@ -201,7 +201,7 @@ class RSA_Decrypt():
         print("Decrypting")
         print(ciphertext)
         # Unpack the key into its components
-        key, n = self.private_key , self.modulus
+        key, n = self.private_key, self.modulus
         # Generate the plaintext based on the ciphertext and key using a^b mod m
         aux = [str(pow(char, key, n)) for char in ciphertext]
         print(aux)
@@ -211,25 +211,16 @@ class RSA_Decrypt():
         return ''.join(plain)
 
     def decrypt(self, ciphertext):
-        print("Decrypting")
-        print(ciphertext)
         # Unpack the key into its components
-        key, n = self.private_key , self.modulus
-
+        key, n = self.private_key, self.modulus
         # Take the ciphertext and convert it to a list
         ciphertext = ciphertext.split("-")
         ciphertext = list(map(int, ciphertext))
-
         # Generate the plaintext based on the ciphertext and key using a^b mod m
         aux = [str(pow(char, key, n)) for char in ciphertext]
-        print(aux)
         # Return the array of bytes as a string
         plain = [chr(int(char2)) for char2 in aux]
-        print(plain)
         return ''.join(plain)
-
-
-
 
 
 def main():
