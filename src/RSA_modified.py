@@ -9,8 +9,8 @@ class RSA_Create():
         self.public_key = public_key
         self.private_key = private_key
 
-
     # Pairing
+
     def generate_key_pair(self, p, q):
 
         # n = pq
@@ -115,19 +115,6 @@ class RSA_Decrypt():
         self.private_key = private_key
         self.modulus = modulus
 
-    def decrypt23(self, ciphertext):
-        print("Decrypting")
-        print(ciphertext)
-        # Unpack the key into its components
-        key, n = self.private_key, self.modulus
-        # Generate the plaintext based on the ciphertext and key using a^b mod m
-        aux = [str(pow(char, key, n)) for char in ciphertext]
-        print(aux)
-        # Return the array of bytes as a string
-        plain = [chr(int(char2)) for char2 in aux]
-        print(plain)
-        return ''.join(plain)
-
     def decrypt(self, ciphertext):
         # Unpack the key into its components
         key, n = self.private_key, self.modulus
@@ -139,12 +126,3 @@ class RSA_Decrypt():
         # Return the array of bytes as a string
         plain = [chr(int(char2)) for char2 in aux]
         return ''.join(plain)
-
-
-def main():
-    rsa2 = RSA_Decrypt(106364327, 89836433)
-    print(rsa2.decrypt("14805175-28486379-87145381-88883360-13323734-81948887-56950187-10013935-65954115-77859389-87145381-13323734-81948887-56950187-88883360-88883360-28486379-10013935-70485224-87145381-28486379-79574321"))
-
-
-if __name__ == "__main__":
-    main()

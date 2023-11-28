@@ -2,7 +2,6 @@ from RSA_modified import RSA_Create, RSA_Decrypt
 from Caesar_modified import Caesar
 from Vigenere_modified import Vigenere_modified
 from in_out import in_out_cipher, in_out_plain
-import random
 
 
 class management_plain_to_cipher:
@@ -23,8 +22,8 @@ class management_plain_to_cipher:
         self.file_data = vigenere.encrypt(self.file_data)
 
         # Write the encrypted data to the output file
-        self.in_out.file_data = self.file_data
-        self.in_out.output(rsa.get_private_key()[0], rsa.get_private_key()[1])
+        self.in_out.output(rsa.get_private_key()[
+                           0], rsa.get_private_key()[1], self.file_data)
 
     def test(self):
         # Initialize the ciphers
@@ -93,9 +92,9 @@ class management_cipher_to_plain:
 
 if __name__ == "__main__":
     # Plain to cipher
-    # inputt = in_out_plain("input_plain.txt", 10, 3, 2021)
-    # management = management_plain_to_cipher(inputt)
-    # management.encrypt()
+    inputt = in_out_plain("input_plain.txt", 10, 3, 2021)
+    management = management_plain_to_cipher(inputt)
+    management.encrypt()
 
     # Cipher to plain
     inputt = in_out_cipher("input_cipher.txt")
