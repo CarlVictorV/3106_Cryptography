@@ -14,6 +14,8 @@ class in_out_plain():
         self.day = day
         self.year = year
         self.file_data = self.read_file()
+        self.md5 = self.create_md5()
+        self.sha256 = self.create_sha256()
 
     def check_file_exists(self):
         if self.file_name == None:
@@ -34,10 +36,8 @@ class in_out_plain():
 
     def output(self, private_key, modulus, file_data):
         Date = f"Date: {self.month}/{self.day}/{self.year}\n"
-        md5 = self.create_md5()
-        sha256 = self.create_sha256()
-        MD5 = f"MD5: {md5}\n"
-        SHA256 = f"SHA256: {sha256}\n"
+        MD5 = f"MD5: {self.md5}\n"
+        SHA256 = f"SHA256: {self.sha256}\n"
         private_key = f"Private Key: {private_key}\n"
         modulus = f"Modulus: {modulus}\n\n"
         with open(f"output{append}ciphertext.txt", "w") as file:
@@ -151,4 +151,3 @@ class in_out_cipher():
         print("Encrypted Data:", self.encrypted_data)
 
         return True
-

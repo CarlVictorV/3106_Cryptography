@@ -40,4 +40,4 @@ class Caesar:
         return self.key
 
 
-CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz{}[]()<>!@#$%^&*-_+=|\\~`?/.,;:'\" "
