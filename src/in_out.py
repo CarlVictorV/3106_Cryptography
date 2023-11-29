@@ -40,7 +40,10 @@ class in_out_plain():
         SHA256 = f"SHA256: {self.sha256}\n"
         private_key = f"Private Key: {private_key}\n"
         modulus = f"Modulus: {modulus}\n\n"
-        with open(f"output{append}ciphertext.txt", "w") as file:
+        self.file_name = self.file_name.split(append)[-1]
+        self.file_name = self.file_name.split(".")[0]
+        self.file_name += "_cipher.txt"
+        with open(f"output{append}{self.file_name}", "w") as file:
             file.write(Date)
             file.write(MD5)
             file.write(SHA256)
@@ -130,13 +133,15 @@ class in_out_cipher():
 
     def output(self):
         temp_md5, temp_sha256 = self.calculate_hashes()
-
-        with open(f"output{append}plaintext.txt", "w") as file:
-            file.write(f"Prev MD5: {self.md5}\n")
-            file.write(f"Prev SHA256: {self.sha256}\n")
+        self.file_name = self.file_name.split(append)[-1]
+        self.file_name = self.file_name.split(".")[0]
+        self.file_name += "_plain.txt"
+        with open(f"output{append}{self.file_name}", "w") as file:
+            file.write(f"Previous MD5: {self.md5}\n")
+            file.write(f"Previous SHA256: {self.sha256}\n")
             if temp_md5 and temp_sha256:
-                file.write(f"MD5: {temp_md5}\n")
-                file.write(f"SHA256: {temp_sha256}\n")
+                file.write(f"Current MD5: {temp_md5}\n")
+                file.write(f"Current SHA256: {temp_sha256}\n\n")
             file.write(self.file_data)
 
     def print_metadata(self):
