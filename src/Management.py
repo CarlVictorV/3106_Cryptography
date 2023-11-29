@@ -61,3 +61,4 @@ class management_cipher_to_plain:
         # Write the decrypted data to the output file
         self.in_out.file_data = self.file_data
         self.in_out.output()
+
