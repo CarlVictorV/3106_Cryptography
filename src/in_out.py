@@ -186,8 +186,8 @@ class in_file():
         if self.check_file_exists():
             with open(self.file_name, "rb") as file:
                 file_contents = file.read()
-                # Return to binary data
-                return binascii.hexlify(file_contents)
+                file_contents = binascii.hexlify(file_contents)
+                return file_contents
         return None
 
     def output(self, private_key, modulus, file_data):
@@ -210,11 +210,11 @@ class in_file():
             file.write(file_data)
 
     def create_md5(self):
-        md5 = hashlib.md5(self.file_data.encode())
+        md5 = hashlib.md5(self.file_data)
         return md5.hexdigest()
 
     def create_sha256(self):
-        sha256 = hashlib.sha256(self.file_data.encode())
+        sha256 = hashlib.sha256(self.file_data)
         return sha256.hexdigest()
 
 
@@ -286,16 +286,18 @@ class out_file():
 
     def calculate_hashes(self):
         if self.file_data:
-            temp_md5 = hashlib.md5(self.file_data)
-            temp_sha256 = hashlib.sha256(self.file_data)
+            temp_md5 = hashlib.md5(self.file_data.encode())
+            temp_sha256 = hashlib.sha256(self.file_data.encode())
             return temp_md5.hexdigest(), temp_sha256.hexdigest()
         return None, None
 
     def output(self):
+        print(self.calculate_hashes())
         self.file_name = self.file_name.split(append)[-1]
         self.file_name = self.file_name.split(".")[0]
         self.file_name += ".{}".format(self.file_type)
-        self.file_data = binascii.unhexlify(self.encrypted_data)
+        # Convert to bytes
+        self.hex_to_bytes()
         with open(f"output{append}{self.file_name}", "wb") as file:
             file.write(self.file_data)
 
@@ -312,6 +314,10 @@ class out_file():
 
         return True
 
+    def hex_to_bytes(self):
+        # Check if file is odd length
+
+        self.file_data = binascii.unhexlify(self.file_data)
 
 def test():
     # Test in_file and out_file
