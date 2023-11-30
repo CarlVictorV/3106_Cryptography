@@ -1,12 +1,6 @@
 class Caesar:
     def __init__(self, day: int):
-        self.key = self.create_key(day)
-
-    def create_key(self, days: int) -> int:
-        if days in [9, 18, 27]:
-            return days + 40
-        else:
-            return days
+        self.key = day
 
     def encrypt(self, plaintext: str) -> str:
         ciphertext = ""
